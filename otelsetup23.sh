@@ -24,11 +24,11 @@ apt install -y -qq jq nginx default-jdk maven
 echo "--end--"
 
 # ==================================================
-#      ----- Create dynatrace user -----           #
+#      ----- Create $NEWUSER user -----           #
 # ==================================================
 echo "--Creating Workshop User from user($USER) into($NEWUSER)--"
 useradd -s /bin/bash -m -G sudo -p $(openssl passwd -1 $NEWPWD) $NEWUSER
-usermod -aG sudo dynatrace
+usermod -aG sudo $NEWUSER
 echo "--end--"
 
 # ==================================================
@@ -74,10 +74,10 @@ pwd
 curl -fsSL https://code-server.dev/install.sh | sh
 mkdir -p $HOME/.config/code-server
 touch $HOME/.config/code-server/config.yaml
-chown dynatrace:dynatrace $HOME/.cache $HOME/.config
+chown $NEWUSER:$NEWUSER $HOME/.cache $HOME/.config
 systemctl enable --now code-server@$NEWUSER
 sleep 120
-sed -i 's/password: .*$/password: dynatrace/g' $HOME/.config/code-server/config.yaml
+sed -i 's/password: .*$/password: $NEWPWD/g' $HOME/.config/code-server/config.yaml
 sed -i 's/8080/9000/' $HOME/.config/code-server/config.yaml
 systemctl restart code-server@$NEWUSER
 echo "--end--"
@@ -86,13 +86,11 @@ echo "--end--"
 #            ----- Clone repo -----                #
 # ==================================================
 echo "--clone repo--"
-cd /home/$NEWUSER
+cd $HOME
 pwd
 git clone git://github.com/shopizer-ecommerce/shopizer.git
-chown -R dynatrace:dynatrace /home/$NEWUSER/shopizer
-cd /home/$NEWUSER/shopizer
-pwd
-sudo -H -u dynatrace bash -c "whoami;echo;mvn clean install"
+chown -R $NEWUSER:$NEWUSER $HOME/shopizer
+sudo -H -u $NEWUSER bash -c "whoami;echo;mvn clean install"
 echo "--end--"
 
 echo "~=~= setup completed ~=~="
