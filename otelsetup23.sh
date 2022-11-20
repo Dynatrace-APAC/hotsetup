@@ -92,7 +92,7 @@ cd $USRHOME
 pwd
 git clone https://github.com/shopizer-ecommerce/shopizer.git
 chown -R $NEWUSER:$NEWUSER $USRHOME/shopizer
-sudo -H -u $NEWUSER bash -c "whoami;echo;cd /shopizer;pwd;mvnw clean install"
+sudo -H -u $NEWUSER bash -c "whoami;echo;cd shopizer;pwd;mvnw clean install"
 echo "--end--"
 
 echo "~=~= setup completed ~=~="
