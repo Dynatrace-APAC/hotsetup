@@ -4,8 +4,6 @@
 #      ----- Variables Definitions -----           #
 # ==================================================
 USER="ubuntu"
-NEWUSER="dynatrace"
-NEWPWD="dynatrace"
 
 echo "whoami:"
 echo $(whoami)
@@ -26,9 +24,16 @@ echo "--end--"
 # ==================================================
 #      ----- Create $NEWUSER user -----           #
 # ==================================================
-echo "--Creating Workshop User from user($USER) into($NEWUSER)--"
-useradd -s /bin/bash -m -G sudo -p $(openssl passwd -1 $NEWPWD) $NEWUSER
-usermod -aG sudo $NEWUSER
+
+if [-z "$NEWUSER"]
+then
+  NEWUSER=$USER
+  echo "using default $NEWUSER"
+else
+  echo "--Creating Workshop User from user($USER) into($NEWUSER)--"
+  useradd -s /bin/bash -m -G sudo -p $(openssl passwd -1 $NEWPWD) $NEWUSER
+  usermod -aG sudo $NEWUSER
+fi
 echo "--end--"
 
 # ==================================================
@@ -75,7 +80,13 @@ curl -fsSL https://code-server.dev/install.sh | sh
 systemctl enable --now code-server@$NEWUSER
 chown -R $NEWUSER:$NEWUSER $HOME/.config
 sleep 120
-sed -i 's/password: .*$/password: $NEWPWD/g' $HOME/.config/code-server/config.yaml
+if [-z $NEWPWD]
+then
+  echo "your password can be found in $HOME/.config/code-server/config.yaml"
+  cat $HOME/.config/code-server/config.yaml
+else
+  sed -i 's/password: .*$/password: $NEWPWD/g' $HOME/.config/code-server/config.yaml
+fi
 sed -i 's/8080/9000/' $HOME/.config/code-server/config.yaml
 systemctl restart code-server@$NEWUSER
 echo "--end--"
