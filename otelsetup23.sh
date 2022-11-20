@@ -25,10 +25,10 @@ echo "--end--"
 #      ----- Create $NEWUSER user -----           #
 # ==================================================
 
-if [-z "$NEWUSER"]
+if [-z $NEWUSER]
 then
   NEWUSER=$USER
-  echo "using default $NEWUSER"
+  echo "NEWUSER not set, using default $USER as $NEWUSER"
 else
   echo "--Creating Workshop User from user($USER) into($NEWUSER)--"
   useradd -s /bin/bash -m -G sudo -p $(openssl passwd -1 $NEWPWD) $NEWUSER
@@ -79,11 +79,11 @@ pwd
 curl -fsSL https://code-server.dev/install.sh | sh
 systemctl enable --now code-server@$NEWUSER
 chown -R $NEWUSER:$NEWUSER $HOME/.config
-sleep 120
+sleep 60
 if [-z $NEWPWD]
 then
   echo "your password can be found in $HOME/.config/code-server/config.yaml"
-  cat $HOME/.config/code-server/config.yaml
+  cat $HOME/.config/code-server/config.yaml | grep password
 else
   sed -i 's/password: .*$/password: $NEWPWD/g' $HOME/.config/code-server/config.yaml
 fi
