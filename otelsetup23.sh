@@ -13,7 +13,7 @@ echo "var-newpwd:" $NEWPWD
 #      ----- Install utilities -----           #
 # ==================================================
 echo "--Install J Query nginx default-jdk, maven--"
-apt install -y jq nginx default-jdk maven
+apt install -y jq nginx default-jdk maven unzip
 echo "--end--"
 
 # ==================================================
@@ -90,7 +90,10 @@ echo "--end--"
 echo "--clone repo--"
 cd $USRHOME
 pwd
-git clone https://github.com/shopizer-ecommerce/shopizer.git
+#git clone https://github.com/shopizer-ecommerce/shopizer.git
+wget https://github.com/shopizer-ecommerce/shopizer/archive/refs/tags/3.1.0.zip
+unzip 3.1.0.zip
+mv shopizer-3.1.0 shopizer
 chown -R $NEWUSER:$NEWUSER $USRHOME/shopizer
 sudo -H -u $NEWUSER bash -c "whoami;echo;cd shopizer;pwd;mvnw clean install"
 echo "--end--"
