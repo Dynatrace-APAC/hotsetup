@@ -67,20 +67,20 @@ echo "--end--"
 #        ----- Setup code server -----             #
 # ==================================================
 echo "--setup code-server--"
-export USRHOME=/home/$NEWUSER
-cd $USRHOME
+export HOME=/home/$NEWUSER
+cd $HOME
 pwd
 curl -fsSL https://code-server.dev/install.sh | sh
 systemctl enable --now code-server@$NEWUSER
-#chown -R $NEWUSER:$NEWUSER $USRHOME/.config
+#chown -R $NEWUSER:$NEWUSER $HOME/.config
 sleep 60
 if [ -z "$NEWPWD" ];then
-  echo "your password can be found in $USRHOME/.config/code-server/config.yaml"
-  cat $USRHOME/.config/code-server/config.yaml | grep password
+  echo "your password can be found in $HOME/.config/code-server/config.yaml"
+  cat $HOME/.config/code-server/config.yaml | grep password
 else
-  sed -i "s/password: .*$/password: $NEWPWD/g" $USRHOME/.config/code-server/config.yaml
+  sed -i "s/password: .*$/password: $NEWPWD/g" $HOME/.config/code-server/config.yaml
 fi
-sed -i 's/8080/9000/' $USRHOME/.config/code-server/config.yaml
+sed -i 's/8080/9000/' $HOME/.config/code-server/config.yaml
 systemctl restart code-server@$NEWUSER
 echo "--end--"
 
@@ -88,14 +88,14 @@ echo "--end--"
 #            ----- Clone repo -----                #
 # ==================================================
 echo "--clone repo--"
-cd $USRHOME
+cd $HOME
 pwd
 #git clone https://github.com/shopizer-ecommerce/shopizer.git
 wget https://github.com/shopizer-ecommerce/shopizer/archive/refs/tags/3.1.0.zip
 unzip 3.1.0.zip
 mv shopizer-3.1.0 shopizer
-chown -R $NEWUSER:$NEWUSER $USRHOME/shopizer
-sudo -H -u $NEWUSER bash -c "whoami;echo;cd shopizer;pwd;mvnw clean install"
+chown -R $NEWUSER:$NEWUSER $HOME/shopizer
+sudo -H -u $NEWUSER bash -c "whoami;cd shopizer;pwd;mvn clean install"
 echo "--end--"
 
 echo "~=~= setup completed ~=~="
