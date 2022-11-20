@@ -4,21 +4,16 @@
 #      ----- Variables Definitions -----           #
 # ==================================================
 USER="ubuntu"
-
-echo "whoami:"
-echo $(whoami)
-echo "uservar:"
-echo $USER
-echo "newuservar:"
-echo $NEWUSER
-echo "newpwd:"
-echo $NEWPWD
+echo "whoami:" $(whoami)
+echo "var-user:" $USER
+echo "var-newuser:" $NEWUSER
+echo "var-newpwd:" $NEWPWD
 
 # ==================================================
 #      ----- Install utilities -----           #
 # ==================================================
 echo "--Install J Query nginx default-jdk, maven--"
-apt install -y -qq jq nginx default-jdk maven
+apt install -y jq nginx default-jdk maven
 echo "--end--"
 
 # ==================================================
@@ -27,7 +22,7 @@ echo "--end--"
 
 if [ -z "$NEWUSER" ];then
   NEWUSER=$USER
-  echo "NEWUSER not set, using default $USER as $NEWUSER"
+  echo "NEWUSER not set, using default $USER as var-newuser:" $NEWUSER
 else
   echo "--Creating Workshop User from user($USER) into($NEWUSER)--"
   useradd -s /bin/bash -m -G sudo -p $(openssl passwd -1 $NEWPWD) $NEWUSER
@@ -72,20 +67,20 @@ echo "--end--"
 #        ----- Setup code server -----             #
 # ==================================================
 echo "--setup code-server--"
-export HOME=/home/$NEWUSER
-cd $HOME
+export USRHOME=/home/$NEWUSER
+cd $USRHOME
 pwd
 curl -fsSL https://code-server.dev/install.sh | sh
 systemctl enable --now code-server@$NEWUSER
 chown -R $NEWUSER:$NEWUSER $HOME/.config
 sleep 60
 if [ -z "$NEWPWD" ];then
-  echo "your password can be found in $HOME/.config/code-server/config.yaml"
-  cat $HOME/.config/code-server/config.yaml | grep password
+  echo "your password can be found in $USRHOME/.config/code-server/config.yaml"
+  cat $USRHOME/.config/code-server/config.yaml | grep password
 else
-  sed -i "s/password: .*$/password: $NEWPWD/g" $HOME/.config/code-server/config.yaml
+  sed -i "s/password: .*$/password: $NEWPWD/g" $USRHOME/.config/code-server/config.yaml
 fi
-sed -i 's/8080/9000/' $HOME/.config/code-server/config.yaml
+sed -i 's/8080/9000/' $USRHOME/.config/code-server/config.yaml
 systemctl restart code-server@$NEWUSER
 echo "--end--"
 
@@ -93,11 +88,11 @@ echo "--end--"
 #            ----- Clone repo -----                #
 # ==================================================
 echo "--clone repo--"
-cd $HOME
+cd $USRHOME
 pwd
 git clone https://github.com/shopizer-ecommerce/shopizer.git
-chown -R $NEWUSER:$NEWUSER $HOME/shopizer
-sudo -H -u $NEWUSER bash -c "whoami;echo;./mvnw clean install"
+chown -R $NEWUSER:$NEWUSER $USRHOME/shopizer
+sudo -H -u $NEWUSER bash -c "whoami;echo;cd /shopizer;./mvnw clean install"
 echo "--end--"
 
 echo "~=~= setup completed ~=~="
