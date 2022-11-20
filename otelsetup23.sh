@@ -72,10 +72,8 @@ export HOME=/home/$NEWUSER
 cd $HOME
 pwd
 curl -fsSL https://code-server.dev/install.sh | sh
-mkdir -p $HOME/.config/code-server
-touch $HOME/.config/code-server/config.yaml
-chown $NEWUSER:$NEWUSER $HOME/.cache $HOME/.config
 systemctl enable --now code-server@$NEWUSER
+chown -R $NEWUSER:$NEWUSER $HOME/.config
 sleep 120
 sed -i 's/password: .*$/password: $NEWPWD/g' $HOME/.config/code-server/config.yaml
 sed -i 's/8080/9000/' $HOME/.config/code-server/config.yaml
@@ -88,9 +86,9 @@ echo "--end--"
 echo "--clone repo--"
 cd $HOME
 pwd
-git clone git://github.com/shopizer-ecommerce/shopizer.git
+git clone https://github.com/shopizer-ecommerce/shopizer.git
 chown -R $NEWUSER:$NEWUSER $HOME/shopizer
-sudo -H -u $NEWUSER bash -c "whoami;echo;mvn clean install"
+sudo -H -u $NEWUSER bash -c "whoami;echo;./mvnw clean install"
 echo "--end--"
 
 echo "~=~= setup completed ~=~="
