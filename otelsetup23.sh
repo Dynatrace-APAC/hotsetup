@@ -90,10 +90,7 @@ echo "--end--"
 echo "--clone repo--"
 cd $HOME
 pwd
-#git clone https://github.com/shopizer-ecommerce/shopizer.git
-wget https://github.com/shopizer-ecommerce/shopizer/archive/refs/tags/3.1.0.zip
-unzip 3.1.0.zip
-mv shopizer-3.1.0 shopizer
+git clone -b 2.17.0 https://github.com/shopizer-ecommerce/shopizer.git
 chown -R $NEWUSER:$NEWUSER $HOME/shopizer
 sudo -H -u $NEWUSER bash -c "whoami;cd shopizer;pwd;mvn clean install"
 echo "--end--"
