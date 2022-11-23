@@ -80,7 +80,7 @@ else
   sed -i "s/password: .*$/password: $NEWPWD/g" $HOME/.config/code-server/config.yaml
 fi
 sed -i 's/8080/9000/' $HOME/.config/code-server/config.yaml
-chown -R $NEWUSER:$NEWUSER $HOME/.config
+chown -R $NEWUSER:$NEWUSER $HOME/.cache
 systemctl restart code-server@$NEWUSER
 echo "--end--"
 
