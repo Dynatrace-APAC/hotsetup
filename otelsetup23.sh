@@ -12,8 +12,8 @@ echo "var-newpwd:" $NEWPWD
 # ==================================================
 #      ----- Install utilities -----           #
 # ==================================================
-echo "--Install J Query nginx default-jdk, maven--"
-apt install -y jq nginx default-jdk maven python3-pip
+echo "--Install J Query nginx openjdk-17-jdk, maven--"
+apt install -y jq nginx openjdk-17-jdk maven python3-pip
 echo "--end--"
 
 # ==================================================
@@ -93,7 +93,7 @@ pwd
 #git clone -b 2.17.0 https://github.com/shopizer-ecommerce/shopizer.git
 git clone https://github.com/Dynatrace-Reinhard-Pilz/shopizer
 chown -R $NEWUSER:$NEWUSER $HOME/shopizer
-sudo -H -u $NEWUSER bash -c "whoami;pip3 install -r shopizer/pysrvc/requirements.txt;cd shopizer;pwd;mvn clean install"
+sudo -H -u $NEWUSER bash -c "whoami;java -verion;pip3 install -r shopizer/pysrvc/requirements.txt;cd shopizer;pwd;mvn clean install"
 echo "--end--"
 
 echo "~=~= setup completed ~=~="
