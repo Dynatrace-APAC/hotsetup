@@ -72,7 +72,6 @@ cd $HOME
 pwd
 curl -fsSL https://code-server.dev/install.sh | sh
 systemctl enable --now code-server@$NEWUSER
-#chown -R $NEWUSER:$NEWUSER $HOME/.config
 sleep 60
 if [ -z "$NEWPWD" ];then
   echo "your password can be found in $HOME/.config/code-server/config.yaml"
@@ -81,6 +80,7 @@ else
   sed -i "s/password: .*$/password: $NEWPWD/g" $HOME/.config/code-server/config.yaml
 fi
 sed -i 's/8080/9000/' $HOME/.config/code-server/config.yaml
+chown -R $NEWUSER:$NEWUSER $HOME/.config
 systemctl restart code-server@$NEWUSER
 echo "--end--"
 
