@@ -50,11 +50,19 @@ echo "server {
    server_name $DOMAIN;
 
    location / {
+     proxy_pass http://localhost:8080/;
+   }
+   location /code/ {
      proxy_pass http://localhost:9000/;
+     proxy_redirect off;
      proxy_set_header Host \$host;
      proxy_set_header Upgrade \$http_upgrade;
      proxy_set_header Connection upgrade;
      proxy_set_header Accept-Encoding gzip;
+   }
+   location /login/ {
+     proxy_pass http://localhost:9000/;
+     proxy_redirect off;
    }
 }" >/etc/nginx/sites-available/code-server
 ln -s /etc/nginx/sites-available/code-server /etc/nginx/sites-enabled/code-server
