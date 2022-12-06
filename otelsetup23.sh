@@ -3,7 +3,13 @@
 # ==================================================
 #      ----- Variables Definitions -----           #
 # ==================================================
-USER="ubuntu"
+if [ -d "/home/dtu_training" ]
+then
+  USER="dtu_training"
+else
+  USER="ubuntu"
+fi 
+
 echo "whoami:" $(whoami)
 echo "var-user:" $USER
 echo "var-newuser:" $NEWUSER
@@ -101,7 +107,7 @@ pwd
 #git clone -b 2.17.0 https://github.com/shopizer-ecommerce/shopizer.git
 git clone https://github.com/Dynatrace-Reinhard-Pilz/shopizer
 chown -R $NEWUSER:$NEWUSER $HOME/shopizer
-sudo -H -u $NEWUSER bash -c "whoami;java -verion;pip3 install -r shopizer/pysrvc/requirements.txt;cd shopizer;pwd;mvn clean install"
+sudo -H -u $NEWUSER bash -c "whoami;java -version;pip3 install -r shopizer/pysrvc/requirements.txt;cd shopizer;pwd;mvn clean install"
 echo "--end--"
 
 echo "~=~= setup completed ~=~="
