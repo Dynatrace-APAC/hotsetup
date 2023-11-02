@@ -11,7 +11,7 @@ else
 fi 
 
 export NEWUSER=""
-export NEWPWD="dtu_training"
+export NEWPWD="performHOT2024"
 
 echo "whoami:" $(whoami)
 echo "var-user:" $USER
@@ -143,7 +143,7 @@ processors:
         match_type: regexp
         metric_names:
           - demo.*
-		  - shop.*
+            - shop.*
 
 exporters:
   debug:
