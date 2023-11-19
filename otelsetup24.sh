@@ -66,6 +66,10 @@ echo "server {
      proxy_set_header Connection upgrade;
      proxy_set_header Accept-Encoding gzip;
    }
+   location /app {
+     proxy_pass http://localhost:54039/;
+     proxy_redirect off;
+   }   
 }" >/etc/nginx/sites-available/code-server
 ln -s /etc/nginx/sites-available/code-server /etc/nginx/sites-enabled/code-server
 echo "removing ngnix default"
@@ -108,7 +112,7 @@ echo "{
   },
   \"update\": {
     \"checked\": 1697194765744,
-    \"version\": \"4.17.1\"
+    \"version\": \"4.18.0\"
   }
 }" >/home/$NEWUSER/.local/share/code-server/coder.json
 
