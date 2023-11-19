@@ -137,13 +137,13 @@ echo "receivers:
 
 processors:
   batch:
-  filter:
-    metrics:
-      include:
-        match_type: regexp
-        metric_names:
-          - demo.*
-            - shop.*
+  #filter:
+  #  metrics:
+  #    include:
+  #      match_type: regexp
+  #      metric_names:
+  #        - demo.*
+  #        - shop.*
 
 exporters:
   debug:
@@ -159,10 +159,10 @@ service:
       receivers: [otlp]
       processors: [batch]
       exporters: [debug, otlphttp]
-    logs:
-      receivers: [otlp]
-      processors: [batch]
-      exporters: [debug, otlphttp]
+    #logs:
+    #  receivers: [otlp]
+    #  processors: [batch]
+    #  exporters: [debug, otlphttp]
     metrics:
       receivers: [otlp]
       processors: [batch]
@@ -178,7 +178,7 @@ echo "--clone repo--"
 
 chown -R $NEWUSER:$NEWUSER $HOME/.cache
 chown -R $NEWUSER:$NEWUSER $HOME/.local
-chown -R $NEWUSER:$NEWUSER $HOME/.m2
+#chown -R $NEWUSER:$NEWUSER $HOME/.m2
 
 cd $HOME
 pwd
@@ -189,6 +189,6 @@ echo "--end--"
 
 chown -R $NEWUSER:$NEWUSER $HOME/.cache
 chown -R $NEWUSER:$NEWUSER $HOME/.local
-chown -R $NEWUSER:$NEWUSER $HOME/.m2
+#chown -R $NEWUSER:$NEWUSER $HOME/.m2
 
 echo "~=~= setup completed ~=~="
