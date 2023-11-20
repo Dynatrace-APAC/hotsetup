@@ -66,7 +66,7 @@ echo "server {
      proxy_set_header Connection upgrade;
      proxy_set_header Accept-Encoding gzip;
    }
-   location /app {
+   location /app/ {
      proxy_pass http://localhost:54039/;
      proxy_redirect off;
    }   
@@ -112,7 +112,7 @@ echo "{
   },
   \"update\": {
     \"checked\": 1697194765744,
-    \"version\": \"4.18.0\"
+    \"version\": \"4.19.0\"
   }
 }" >/home/$NEWUSER/.local/share/code-server/coder.json
 
