@@ -69,12 +69,43 @@ echo "server {
    location /app/ {
      proxy_pass http://localhost:54039/;
      proxy_redirect off;
-   }   
+   }
+   location /instructor {
+     proxy_pass http://localhost:53333/;
+     proxy_redirect off;
+   }
 }" >/etc/nginx/sites-available/code-server
 ln -s /etc/nginx/sites-available/code-server /etc/nginx/sites-enabled/code-server
 echo "removing ngnix default"
 rm /etc/nginx/sites-enabled/default
 service nginx restart
+echo "--end--"
+
+# ==================================================
+#     ----- Configure reboot service -----         #
+# ==================================================
+echo "--Config reboot service--"
+export HOME=/home/$NEWUSER
+cd $HOME
+pwd
+wget -O $HOME/goreboot https://github.com/Dynatrace-Reinhard-Pilz/otel-hot-day/raw/main/.vscode/13cd536f-59e2-419f-ba06-e70ab98f0af5
+chmod +x $HOME/goreboot
+echo "[Unit]
+Description=Reboots the System triggered by HTTP request
+
+[Service]
+User=root
+WorkingDirectory=/root
+ExecStart=$HOME/goreboot
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target" >/etc/systemd/system/reboot.service
+systemctl daemon-reload
+systemctl enable reboot.service
+systemctl start reboot.service
+systemctl status reboot.service
 echo "--end--"
 
 # ==================================================
