@@ -172,13 +172,12 @@ echo "receivers:
 
 processors:
   batch:
-  #filter:
-  #  metrics:
-  #    include:
-  #      match_type: regexp
-  #      metric_names:
-  #        - demo.*
-  #        - shop.*
+  filter:
+    metrics:
+      exclude:
+        match_type: regexp
+        metric_names:
+          - process.runtime.jvm.system.*
 
 exporters:
   debug:
@@ -200,7 +199,7 @@ service:
     #  exporters: [debug, otlphttp]
     metrics:
       receivers: [otlp]
-      processors: [batch]
+      processors: [batch, filter]
       exporters: [debug, otlphttp]" >/etc/otelcol/config.yaml
 chown root:$NEWUSER /etc/otelcol/config.yaml
 chmod g+w /etc/otelcol/config.yaml
