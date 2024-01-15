@@ -21,9 +21,9 @@ echo "var-newpwd:" $NEWPWD
 # ==================================================
 #      ----- Install utilities -----               #
 # ==================================================
-echo "--Install openjdk-19-jdk openjdk-19-jre-headless openjdk-19-source jq nginx maven--"
+echo "--Install openjdk-19-jdk openjdk-19-jre-headless openjdk-19-source jq nginx maven python3-pip--"
 apt update && apt -qy upgrade
-apt -y install openjdk-19-jdk openjdk-19-jre-headless openjdk-19-source jq nginx maven 
+apt -y install openjdk-19-jdk openjdk-19-jre-headless openjdk-19-source jq nginx maven python3-pip
 echo "--end--"
 
 # ==================================================
@@ -67,7 +67,7 @@ echo "server {
      proxy_set_header Accept-Encoding gzip;
    }
    location /app/ {
-     proxy_pass http://localhost:54039/;
+     proxy_pass http://localhost:8090/;
      proxy_redirect off;
    }
    location /instructor {
@@ -143,7 +143,7 @@ echo "{
   },
   \"update\": {
     \"checked\": 1697194765744,
-    \"version\": \"4.19.0\"
+    \"version\": \"4.20.0\"
   }
 }" >/home/$NEWUSER/.local/share/code-server/coder.json
 
@@ -218,7 +218,7 @@ cd $HOME
 pwd
 git clone https://github.com/Dynatrace-Reinhard-Pilz/otel-hot-day
 chown -R $NEWUSER:$NEWUSER $HOME/otel-hot-day
-sudo -H -u $NEWUSER bash -c "whoami;java -version;cd otel-hot-day;pwd;ln -s /etc/otelcol otelcol"
+sudo -H -u $NEWUSER bash -c "whoami;java -version;cd otel-hot-day;pwd;ln -s /etc/otelcol otelcol;pip3 install -r pysrvc/requirements.txt"
 echo "--end--"
 
 chown -R $NEWUSER:$NEWUSER $HOME/.cache
