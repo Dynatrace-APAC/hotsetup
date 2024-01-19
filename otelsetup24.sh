@@ -67,7 +67,7 @@ echo "server {
      proxy_set_header Accept-Encoding gzip;
    }
    location /app/ {
-     proxy_pass http://localhost:8090/;
+     proxy_pass http://localhost:8090/calc;
      proxy_redirect off;
    }
    location /instructor {
@@ -218,7 +218,7 @@ cd $HOME
 pwd
 git clone https://github.com/Dynatrace-Reinhard-Pilz/otel-hot-day
 chown -R $NEWUSER:$NEWUSER $HOME/otel-hot-day
-sudo -H -u $NEWUSER bash -c "whoami;java -version;cd otel-hot-day;pwd;ln -s /etc/otelcol otelcol;pip3 install -r pysrvc/requirements.txt"
+sudo -H -u $NEWUSER bash -c "whoami;java -version;cd otel-hot-day;pwd;ln -s /etc/otelcol otelcol;pip3 install -r pysvc/requirements.txt"
 echo "--end--"
 
 chown -R $NEWUSER:$NEWUSER $HOME/.cache
