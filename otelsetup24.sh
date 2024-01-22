@@ -66,7 +66,7 @@ echo "server {
      proxy_set_header Connection upgrade;
      proxy_set_header Accept-Encoding gzip;
    }
-   location /app/ {
+   location /app {
      proxy_pass http://localhost:8090/calc;
      proxy_redirect off;
    }
@@ -200,7 +200,10 @@ service:
     metrics:
       receivers: [otlp]
       processors: [batch, filter]
-      exporters: [debug, otlphttp]" >/etc/otelcol/config.yaml
+      exporters: [debug, otlphttp]
+  #telemetry:
+  #  logs:
+  #    level: debug" >/etc/otelcol/config.yaml
 chown root:$NEWUSER /etc/otelcol/config.yaml
 chmod g+w /etc/otelcol/config.yaml
 echo "--end--"
