@@ -21,9 +21,9 @@ echo "var-newpwd:" $NEWPWD
 # ==================================================
 #      ----- Install utilities -----               #
 # ==================================================
-echo "--Install openjdk-20-jdk openjdk-20-jre-headless openjdk-20-source jq nginx maven python3-pip--"
+echo "--Install openjdk-21-jdk openjdk-21-jre-headless openjdk-21-source jq nginx maven python3-pip--"
 apt update && apt -qy upgrade
-apt -y install openjdk-20-jdk openjdk-20-jre-headless openjdk-20-source jq nginx maven python3-pip
+apt -y install openjdk-21-jdk openjdk-21-jre-headless openjdk-21-source jq nginx maven python3-pip
 echo "--end--"
 
 # ==================================================
